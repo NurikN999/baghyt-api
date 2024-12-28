@@ -7,6 +7,7 @@ use App\Http\Resources\Api\V1\UserResource;
 use App\Http\Services\User\UserService;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -22,6 +23,17 @@ class UserController extends Controller
         return $this->successResponse(
             data: new UserResource($user),
             message: 'User retrieved successfully.',
+            code: 200
+        );
+    }
+
+    public function profile()
+    {
+        $user = Auth::user();
+
+        return $this->successResponse(
+            data: new UserResource($user),
+            message: 'User profile retrieved successfully.',
             code: 200
         );
     }

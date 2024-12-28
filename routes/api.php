@@ -11,7 +11,15 @@ Route::prefix('v1')->group(function () {
         Route::post('login', [AuthController::class, 'login']);
     });
 
-    Route::prefix('users')->group(function () {
-        Route::get('{user}', [UserController::class, 'show']);
+    Route::middleware('jwt.auth')->group(function () {
+        Route::prefix('auth')->group(function () {
+            Route::post('send-password-change-code', [AuthController::class, 'sendPasswordChangeCode']);
+            Route::post('verify-password-change-code', [AuthController::class, 'verifyPasswordChangeCode']);
+            Route::post('change-password', [AuthController::class, 'changePassword']);
+        });
+
+        Route::prefix('user')->group(function () {
+            Route::get('profile', [UserController::class, 'profile']);
+        });
     });
 });
