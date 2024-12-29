@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Auth;
+namespace App\Http\Services\Auth;
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
