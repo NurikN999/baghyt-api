@@ -32,6 +32,7 @@ services:
     volumes:
       - ./:/var/www/baghyt-api
       - ./docker/php/php.ini:/usr/local/etc/php/conf.d/z-php.ini
+      - ./storage:/var/www/baghyt-api/storage
     working_dir: /var/www/baghyt-api
     depends_on:
       - redis
