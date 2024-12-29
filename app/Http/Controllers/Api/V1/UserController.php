@@ -26,15 +26,5 @@ class UserController extends Controller
             code: 200
         );
     }
-
-    public function profile()
-    {
-        $user = Auth::user();
-
-        return $this->successResponse(
-            data: new UserResource($user),
-            message: 'User profile retrieved successfully.',
-            code: 200
-        );
-    }
+    
 }

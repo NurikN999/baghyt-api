@@ -20,7 +20,6 @@ Route::prefix('v1')->group(function () {
 
         Route::prefix('users')->group(function () {
             Route::get('{user}', [UserController::class, 'show']);
-            Route::get('profile', [UserController::class, 'profile']);
         });
     });
 });
