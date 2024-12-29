@@ -6,10 +6,9 @@ namespace App\Http\Services\Auth;
 
 use App\DTO\Api\Auth\AuthDTO;
 use App\Http\Resources\Api\V1\UserResource;
-use App\Jobs\SendVerificationCode;
 use App\Mail\PasswordRestoreOtpMail;
 use App\Models\User;
-use App\Services\Auth\OtpService;
+use App\Http\Services\Auth\OtpService;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
