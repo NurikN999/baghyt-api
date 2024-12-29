@@ -6,6 +6,7 @@ namespace Tests\Feature\Api\V1\User;
 
 use App\Models\User;
 use Tests\TestCase;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserTest extends TestCase
 {
@@ -14,7 +15,11 @@ class UserTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->get('/api/v1/users/' . $user->id);
+        $token = JWTAuth::fromUser($user);
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->get('/api/v1/users/' . $user->id);
 
         $response->assertStatus(200);
 
