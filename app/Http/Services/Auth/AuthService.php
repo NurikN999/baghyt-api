@@ -9,7 +9,7 @@ use App\Http\Resources\Api\V1\UserResource;
 use App\Jobs\SendVerificationCode;
 use App\Mail\PasswordRestoreOtpMail;
 use App\Models\User;
-use App\Services\OtpService;
+use App\Services\Auth\OtpService;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
