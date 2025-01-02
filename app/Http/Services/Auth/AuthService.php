@@ -120,4 +120,9 @@ class AuthService
         ];
     }
 
+    public function logout()
+    {
+        JWTAuth::invalidate(JWTAuth::getToken());
+    }
+
 }
