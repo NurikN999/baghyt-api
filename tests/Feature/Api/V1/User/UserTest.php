@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace Tests\Feature\Api\V1\User;
 
 use App\Models\User;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserTest extends TestCase
 {
+    use DatabaseTransactions;
+    
     /** @test */
     public function it_should_return_a_user()
     {

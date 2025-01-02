@@ -71,4 +71,11 @@ class AuthController extends Controller
 
         return $this->errorResponse($result['error'], 400);
     }
+
+    public function logout()
+    {
+        $this->authService->logout();
+
+        return $this->successResponse([], 'User logged out successfully', 200);
+    }
 }
