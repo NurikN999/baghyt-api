@@ -6,14 +6,18 @@ use App\Filament\Resources\CompanyResource\Pages;
 use App\Filament\Resources\CompanyResource\RelationManagers;
 use App\Models\Company;
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class CompanyResource extends Resource
 {
@@ -31,10 +35,17 @@ class CompanyResource extends Resource
                     ->label('Название')
                     ->required()
                     ->maxLength(255),
-                TextInput::make('description')
+                MarkdownEditor::make('description')
                     ->label('Описание')
-                    ->required()
-                    ->maxLength(255),
+                    ->fileAttachmentsDisk('public')
+                    ->fileAttachmentsVisibility('public')
+                    ->fileAttachmentsDirectory('companies')
+                    ->required(),
+                FileUpload::make('logo_url')
+                    ->label('Логотип')
+                    ->maxSize(1024 * 1024 * 10)
+                    ->imageEditor()
+                    ->image()
             ]);
     }
 
@@ -50,6 +61,10 @@ class CompanyResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->label('Описание'),
+                ImageColumn::make('logo_url')
+                    ->label('Логотип')
+                    ->disk('public')
+                    ->url(fn (Company $company) => $company->logo_url),
             ])
             ->filters([
                 //
@@ -78,5 +93,10 @@ class CompanyResource extends Resource
             'create' => Pages\CreateCompany::route('/create'),
             'edit' => Pages\EditCompany::route('/{record}/edit'),
         ];
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return Auth::user()?->can('view-any Company') || Auth::user()->hasRole('admin');
     }
 }

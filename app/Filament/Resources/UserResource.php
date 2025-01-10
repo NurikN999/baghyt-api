@@ -15,6 +15,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class UserResource extends Resource
 {
@@ -30,26 +31,21 @@ class UserResource extends Resource
             ->schema([
                 TextInput::make('name')
                     ->label('Имя')
-                    ->required()
                     ->maxLength(255),
                 TextInput::make('surname')
                     ->label('Фамилия')
-                    ->required()
                     ->maxLength(255),
                 TextInput::make('email')
                     ->label('Email')
-                    ->required()
                     ->email()
                     ->maxLength(255),
                 TextInput::make('password')
                     ->label('Пароль')
-                    ->required()
                     ->password()
                     ->confirmed()
                     ->minLength(8),
                 TextInput::make('password_confirmation')
                     ->label('Подтверждение пароля')
-                    ->required()
                     ->password(),
                 Select::make('roles')
                     ->multiple()
@@ -58,7 +54,6 @@ class UserResource extends Resource
                     ->label('Роль'),
                 TextInput::make('phone')
                     ->label('Телефон')
-                    ->required()
                     ->maxLength(255),
             ]);
     }
@@ -116,5 +111,10 @@ class UserResource extends Resource
             'create' => Pages\CreateUser::route('/create'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return Auth::user()?->can('view-any Company') || Auth::user()->hasRole('admin');
     }
 }
